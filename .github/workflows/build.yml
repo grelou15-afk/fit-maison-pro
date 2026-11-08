@@ -11,18 +11,28 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.7"
       - name: Appliquer la spec
         run: |
           if [ -f apply_spec.py ]; then python apply_spec.py; fi
+      - name: Créer le projet Android
+        run: |
+          mkdir -p www
+          cp fit_maison_pro_3_android.html www/index.html
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+          npx cap init "Fit Maison Pro" com.fitmaison.pro --web-dir=www
+          npx cap add android
+          npx cap sync android
       - name: Fabriquer l'APK
-        run: gradle assembleRelease --no-daemon
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: apk
-          path: "**/build/outputs/apk/**/*.apk"
+          path: android/app/build/outputs/apk/debug/*.apk
