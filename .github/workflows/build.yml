@@ -23,7 +23,9 @@ jobs:
       - name: Créer le projet Android
         run: |
           mkdir -p www
-          cp fit_maison_pro_3_android.html www/index.html
+          HTML=$(find . -maxdepth 2 -name "*.html" -not -path "./node_modules/*" -not -path "./www/*" | head -n 1)
+          echo "Fichier utilisé : $HTML"
+          cp "$HTML" www/index.html
           npm init -y
           npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
           npx cap init "Fit Maison Pro" com.fitmaison.pro --web-dir=www
