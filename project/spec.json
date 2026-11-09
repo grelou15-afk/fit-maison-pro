@@ -1,6 +1,6 @@
 {
-  "name": "fit maison pro 3 android",
-  "package": "com.htmltoapk.app.fitmaisonpro3android",
+  "name": "Armoire Ecole",
+  "package": "com.htmltoapk.app.armoireecole",
   "orientation": "auto",
   "fullscreen": true,
   "keepScreenOn": true,
